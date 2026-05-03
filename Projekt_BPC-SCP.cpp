@@ -10,15 +10,15 @@ template <class T>
 class Array1D {
 private:
     T* data;                // Ukazatel na dynamicky alokovane pole
-    unsigned int pocet;     // Pocet prvku v poli
+    unsigned int pocet;     
 
 public:
-    // --- KONSTRUKTORY A DESTRUKTOR ---
+    // Konstruktory a destruktor
 
     // Konstruktor s velikosti pole
     Array1D(unsigned int velikost) {
         if (velikost == 0) {
-            throw invalid_argument("Chyba: Velikost nesmi byt nula");
+            throw invalid_argument("Velikost nesmi byt nula");
         }
 
         this->pocet = velikost;
@@ -29,14 +29,14 @@ public:
         }
     }
 
-    // Konverzni konstruktor - vytvori pole o 1 prvku z hodnoty
+    // Konverzni konstruktor
     Array1D(T hodnota) {
         this->pocet = 1;
         this->data = new T[this->pocet];
         this->data[0] = hodnota;
     }
 
-    // Kopirovaci konstruktor - hluboka kopie dat
+    // Kopirovaci konstruktor
     Array1D(const Array1D& other) {
         this->pocet = other.pocet;
         this->data = new T[this->pocet];
@@ -46,14 +46,14 @@ public:
         }
     }
 
-    // Destruktor - uvolneni pameti
+    // Destruktor
     ~Array1D() {
         delete[] this->data;
     }
 
-    // --- OPERATORY ---
+    // Operatory
 
-    // Operator prirazeni - hluboka kopie
+    // Operator prirazeni
     Array1D& operator=(const Array1D& other) {
         if (this != &other) {
             delete[] this->data;
@@ -69,10 +69,10 @@ public:
         return *this;
     }
 
-    // Operator indexovani s kontrolou mezÃ­
+    // Operator indexovani s kontrolou mezí
     T& operator[](int index) {
         if (index < 0 || index >= this->pocet) {
-            throw out_of_range("Chyba: Index je mimo rozsah pole");
+            throw out_of_range("Index je mimo rozsah pole");
         }
 
         return this->data[index];
@@ -81,13 +81,13 @@ public:
     // Operator indexovani pro konstantni pole
     const T& operator[](int index) const {
         if (index < 0 || index >= this->pocet) {
-            throw out_of_range("Chyba: Index je mimo rozsah pole");
+            throw out_of_range("Index je mimo rozsah pole");
         }
 
         return this->data[index];
     }
 
-    // Unarni operator minus - negace vsech hodnot pole
+    // Unarni operator minus
     Array1D operator-() const {
         Array1D vysledek(this->pocet);
 
@@ -124,7 +124,7 @@ public:
         }
 
         if (a.pocet != b.pocet) {
-            throw invalid_argument("Chyba: Pole musi mit stejnou velikost");
+            throw invalid_argument("Pole musi mit stejnou velikost");
         }
 
         Array1D vysledek(a.pocet);
@@ -154,7 +154,7 @@ public:
         }
 
         if (a.pocet != b.pocet) {
-            throw invalid_argument("Chyba: Pole musi mit stejnou velikost");
+            throw invalid_argument("Pole musi mit stejnou velikost");
         }
 
         Array1D vysledek(a.pocet);
@@ -184,7 +184,7 @@ public:
         }
 
         if (a.pocet != b.pocet) {
-            throw invalid_argument("Chyba: Pole musi mit stejnou velikost");
+            throw invalid_argument("Pole musi mit stejnou velikost");
         }
 
         Array1D vysledek(a.pocet);
@@ -202,7 +202,7 @@ public:
             Array1D vysledek(b.pocet);
             for (int i = 0; i < b.pocet; i++) {
                 if (b.data[i] == 0) {
-                    throw invalid_argument("Chyba: Deleni nulou");
+                    throw invalid_argument("Deleni nulou");
                 }
                 vysledek.data[i] = a.data[0] / b.data[i];
             }
@@ -213,7 +213,7 @@ public:
             Array1D vysledek(a.pocet);
             for (int i = 0; i < a.pocet; i++) {
                 if (b.data[0] == 0) {
-                    throw invalid_argument("Chyba: Deleni nulou");
+                    throw invalid_argument("Deleni nulou");
                 }
                 vysledek.data[i] = a.data[i] / b.data[0];
             }
@@ -221,13 +221,13 @@ public:
         }
 
         if (a.pocet != b.pocet) {
-            throw invalid_argument("Chyba: Pole musi mit stejnou velikost");
+            throw invalid_argument("Pole musi mit stejnou velikost");
         }
 
         Array1D vysledek(a.pocet);
         for (int i = 0; i < a.pocet; i++) {
             if (b.data[i] == 0) {
-                throw invalid_argument("Chyba: Deleni nulou");
+                throw invalid_argument("Deleni nulou");
             }
             vysledek.data[i] = a.data[i] / b.data[i];
         }
@@ -235,15 +235,17 @@ public:
         return vysledek;
     }
 
+    //Operator vypisu 
+
     template <class P>
     friend ostream& operator<<(ostream& out, const Array1D<P>& arr);
 
-    // --- STATISTIKY ---
+    // Statistika
 
     // Vypocet souctu prvku pole
     double sum() const {
         if (this->pocet <= 0) {
-            throw logic_error("Chyba: Pole je prazdne");
+            throw logic_error("Pole je prazdne");
         }
 
         T soucet = 0;
@@ -257,7 +259,7 @@ public:
     // Vypocet prumeru prvku pole
     double average() const {
         if (this->pocet <= 0) {
-            throw logic_error("Chyba: Pole je prazdne");
+            throw logic_error("Pole je prazdne");
         }
 
         return this->sum() / this->pocet;
@@ -266,7 +268,7 @@ public:
     // Vypocet smerodatne odchylky prvku pole
     double stdev() const {
         if (this->pocet <= 0) {
-            throw logic_error("Chyba: Pole je prazdne");
+            throw logic_error("Pole je prazdne");
         }
 
         double prumer = this->average();
@@ -282,7 +284,7 @@ public:
     // Nalezeni maxima v poli
     T maximum() const {
         if (this->pocet <= 0) {
-            throw logic_error("Chyba: Pole je prazdne");
+            throw logic_error("Pole je prazdne");
         }
 
         T max = this->data[0];
@@ -298,7 +300,7 @@ public:
     // Nalezeni minima v poli
     T minimum() const {
         if (this->pocet <= 0) {
-            throw logic_error("Chyba: Pole je prazdne");
+            throw logic_error("Pole je prazdne");
         }
 
         T min = this->data[0];
@@ -314,7 +316,7 @@ public:
     // Vypocet medianu
     double median() const {
         if (this->pocet <= 0) {
-            throw logic_error("Chyba: Pole je prazdne");
+            throw logic_error("Pole je prazdne");
         }
 
         Array1D<T> kopie = *this;
@@ -333,21 +335,21 @@ public:
         }
     }
 
-    // --- RAZENI ---
+    // Razeni
 
     // Razeni prvku pole vzestupne
     void sortAsc() {
         if (this->pocet <= 0) {
-            throw logic_error("Chyba: Pole je prazdne");
+            throw logic_error("Pole je prazdne");
         }
 
         sort(this->data, this->data + this->pocet);
     }
 
-    // Razeni prvku pole sestupne - porovnava a > b
+    // Razeni prvku pole sestupne 
     void sortDesc() {
         if (this->pocet <= 0) {
-            throw logic_error("Chyba: Pole je prazdne");
+            throw logic_error("Pole je prazdne");
         }
 
         this->sortAsc();
@@ -355,9 +357,9 @@ public:
     }
 };
 
-// --- IMPLEMENTACE SPRATELENICH OPERATORU MIMO TRIDU ---
+// Implementace spratelenych operatoru mimo tridu
 
-// Operator rovnosti - porovna dve pole prvek po prvku
+// Operator rovnosti
 template <class P>
 bool operator==(const Array1D<P>& a, const Array1D<P>& b) {
     if (a.pocet != b.pocet) {
@@ -396,7 +398,7 @@ ostream& operator<<(ostream& out, const Array1D<P>& arr) {
 }
 
 int main() {
-    cout << "--- Projekt P05: Jednorozmerne pole ---" << endl;
+    cout << "Jednorozmerne pole" << endl;
 
     try {
         // Vytvoreni pole A o velikosti 4 a naplneni hodnotami
@@ -407,29 +409,29 @@ int main() {
         A[3] = 20.1;
         cout << "Pole A: " << A << endl;
 
-        // Nasobeni pole hodnotou - vysledek ulozime do pole B
+        // Nasobeni pole hodnotou
         Array1D<double> B = A * 2.0;
         cout << "Pole B (A * 2): " << B << endl;
 
-        // Scitani dvou poli - vysledek ulozime do pole C
+        // Scitani dvou poli
         Array1D<double> C = A + B;
         cout << "Pole C (A + B): " << C << endl;
 
-        // Odcitani dvou poli - vysledek ulozime do pole D
+        // Odcitani dvou poli
         Array1D<double> D = B - A;
         cout << "Pole D (B - A): " << D << endl;
 
-        // Deleni pole hodnotou - vysledek ulozime do pole E
+        // Deleni pole hodnotou
         Array1D<double> E = B / 2.0;
         cout << "Pole E (B / 2): " << E << endl;
 
-        // Negace pole A - vysledek ulozime do pole F
+        // Negace pole A
         Array1D<double> F = -A;
         cout << "Pole F (-A): " << F << endl;
 
-        // Test kopirovacÃ­ho konstruktoru a porovnani poli
+        // Test kopirovací­ho konstruktoru a porovnani poli
         Array1D<double> G = A;
-        cout << "\nTest porovnani:" << endl;
+        cout << "\nPorovnani:" << endl;
         if (A == G) {
             cout << "Pole A a G jsou stejna." << endl;
         }
@@ -460,6 +462,7 @@ int main() {
 
     // Test: Zaporna velikost
     try {
+        cout << "\nTest chyb:" << endl;
         cout << "Test 1 (Nulova velikost): ";
         Array1D<int> I(0u);
     }
