@@ -401,7 +401,7 @@ int main() {
     cout << "Jednorozmerne pole" << endl;
 
     try {
-        // Vytvoreni pole A o velikosti 4 a naplneni hodnotami
+        // Vytvoreni pole A
         Array1D<double> A(4u);
         A[0] = 40.5;
         A[1] = 10.2;
